@@ -1,0 +1,373 @@
+﻿<Window x:Class="Calc.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:Calc"
+		mc:Ignorable="d"
+		Title="1BF. Калькулятор" Height="550" Width="450"
+		ResizeMode="NoResize"
+		WindowState="Minimized"
+		WindowStartupLocation="CenterScreen"
+        KeyDown="_KeyDown"
+        KeyUp="_KeyUp">
+
+    <Window.Resources>
+        <FontFamily x:Key="Typicons">/Calc;component/Resources/#Typicons</FontFamily>
+    </Window.Resources>
+
+
+    <Grid>
+        
+		<Grid.RowDefinitions>
+			<RowDefinition Height="3*"/>
+			<RowDefinition Height="5*"/>
+		</Grid.RowDefinitions>
+
+        <Border Background="#00FFFF" />
+		
+        <!--Отображение данных--> 
+		<Grid Grid.Row="0"> 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+				<RowDefinition Height="2*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+            <TextBlock Text="0" Grid.Column="0" Grid.Row="0" x:Name="ResultTextBlock" 
+                       Grid.ColumnSpan="4" 
+                       VerticalAlignment="Bottom" 
+                       HorizontalAlignment="Right"
+                       Margin="15,0"
+                       FontSize="30"/>
+            <TextBlock Text="0" Grid.Column="0" Grid.Row="1" x:Name="InnerValueTextBlock" 
+                       Grid.ColumnSpan="4" 
+                       VerticalAlignment="Bottom" 
+                       HorizontalAlignment="Right" 
+                       Margin="5" 
+                       FontSize="25" />
+            <TextBlock Text="" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" x:Name="OperationTextBlock" 
+                       VerticalAlignment="Bottom" 
+                       HorizontalAlignment="Left"
+                       Margin="12"
+                       FontSize="29" />
+            <TextBlock Text="" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" x:Name="MemoryTextBlock" 
+                       VerticalAlignment="Bottom" 
+                       HorizontalAlignment="Left" 
+                       Margin="2" 
+                       FontSize="15" />
+
+			<Button Grid.Column="0" Grid.Row="3" x:Name="MCButton" 
+                    Content="MC" 
+                    ToolTip="Отчистить память" 
+                    Margin="1" 
+                    FontSize="15" 
+                    Click="MCButton_Click"  
+                    Background="#00FFFF" 
+                    BorderBrush="#FFFFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="1" Grid.Row="3" x:Name="MRButton" 
+                    Content="MR" 
+                    ToolTip="Вставить из память" 
+                    Margin="1" 
+                    FontSize="15" 
+                    Click="MRButton_Click"  
+                    Background="#00FFFF"
+                    BorderBrush="#FFFFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="2" Grid.Row="3" x:Name="MPlusButton" 
+                    Content="M+" 
+                    ToolTip="Прибавить к память" 
+                    Margin="1" 
+                    FontSize="15" 
+                    Click="MPlusButton_Click" 
+                    Background="#00FFFF"
+                    BorderBrush="#FFFFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="3" Grid.Row="3" x:Name="MMinusButton" 
+                    Content="M-"  
+                    ToolTip="Отнять из память" 
+                    Margin="1"
+                    FontSize="15"
+                    Click="MMinusButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#FFFFFF" 
+                    Focusable="False"/>
+
+		</Grid>
+
+		<!--Ввод и работа с данными-->
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+
+            <Button Grid.Column="0" Grid.Row="0" x:Name="PercentButton" 
+                    Content="%"
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="PercentButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="1" Grid.Row="0" x:Name="CEButton"
+                    Content="CE" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}"
+                    Click="CEButton_Click"
+                    Background="#00FFFF"
+                    BorderBrush="#00FFFF"
+                    Focusable="False"/>
+            <Button Grid.Column="2" Grid.Row="0" x:Name="CButton" 
+                    Content="C" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="CButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="3" Grid.Row="0" x:Name="BackSpaceButton"
+                    Content="⌫" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="BackSpaceButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+
+			<Button Grid.Column="0" Grid.Row="1" x:Name="OneDivideButton" 
+                    Content="1/x" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="OneDivideButton_Click" 
+                    Background="#00FFFF"
+                    BorderBrush="#00FFFF"/>
+            <Button Grid.Column="1" Grid.Row="1" x:Name="SquareDegreeButton" 
+                    Content="sqrd(x)"  
+                    ToolTip="Возвести в квадрат" 
+                    Margin="1"
+                    FontSize="19"
+                    Padding="0"
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="SquareDegreeButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="2" Grid.Row="1" x:Name="SquareRootButton" 
+                    Content="sqrt(x)"  
+                    ToolTip="Получить квадратный корень" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="SquareRootButton_Click"
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="3" Grid.Row="1" x:Name="DivisionButton"
+                    Content="÷" 
+                    Margin="1" 
+                    FontSize="29" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="DivisionButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+
+            <Button Grid.Column="0" Grid.Row="2" x:Name="SevenButton" 
+                    Content="7" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="SevenButton_Click"
+                    Background="#00FFFF"
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="1" Grid.Row="2" x:Name="EightButton" 
+                    Content="8" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="EightButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="2" Grid.Row="2" x:Name="NineButton" 
+                    Content="9" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="NineButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="3" Grid.Row="2" x:Name="MultiplicationButton" 
+                    Content="×" 
+                    Margin="1" 
+                    FontSize="29" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="MultiplicationButton_Click" 
+                    Background="#00FFFF"
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+
+            <Button Grid.Column="0" Grid.Row="3" x:Name="FourButton" 
+                    Content="4" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}"
+                    Click="FourButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="1" Grid.Row="3" x:Name="FiveButton" 
+                    Content="5" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="FiveButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="2" Grid.Row="3" x:Name="SixButton" 
+                    Content="6" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="SixButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF"
+                    Focusable="False"/>
+            <Button Grid.Column="3" Grid.Row="3" x:Name="SubtractionButton" 
+                    Content="−" 
+                    Margin="1" 
+                    FontSize="29" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="SubtractionButton_Click"
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+
+            <Button Grid.Column="0" Grid.Row="4" x:Name="OneButton" 
+                    Content="1" 
+                    Margin="1" 
+                    FontSize="19"
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="OneButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="1" Grid.Row="4" x:Name="TwoButton" 
+                    Content="2"
+                    Margin="1" 
+                    FontSize="19"
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="TwoButton_Click"
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="2" Grid.Row="4" x:Name="ThreeButton" 
+                    Content="3"
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="ThreeButton_Click"
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="3" Grid.Row="4" x:Name="AdditionButton" 
+                    Content="+" 
+                    Margin="1" 
+                    FontSize="29" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="AdditionButton_Click"
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+
+            <Button Grid.Column="0" Grid.Row="5" x:Name="NegateButton" 
+                    Content="±" 
+                    Margin="1" 
+                    FontSize="29" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="NegateButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="1" Grid.Row="5" x:Name="ZeroButton" 
+                    Content="0" 
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="ZeroButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="2" Grid.Row="5" x:Name="DoteButton" 
+                    Content=","
+                    Margin="1" 
+                    FontSize="19" 
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="DoteButton_Click" 
+                    Background="#00FFFF" 
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+            <Button Grid.Column="3" Grid.Row="5" x:Name="EqualityButton" 
+                    Content="=" 
+                    Margin="1" 
+                    FontSize="29"
+                    Padding="0" 
+                    FontFamily="{StaticResource Typicons}" 
+                    Click="EqualityButton_Click" 
+                    Background="#00FFFF"
+                    BorderBrush="#00FFFF" 
+                    Focusable="False"/>
+
+		</Grid>
+
+	</Grid>
+</Window>
