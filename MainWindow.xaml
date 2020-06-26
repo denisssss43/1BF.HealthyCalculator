@@ -5,7 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Calc"
 		mc:Ignorable="d"
-		Title="1BF. Калькулятор" Height="550" Width="450"
+		Title="1BF. Здоровый калькулятор." Height="550" Width="450"
 		ResizeMode="NoResize"
 		WindowState="Minimized"
 		WindowStartupLocation="CenterScreen"
